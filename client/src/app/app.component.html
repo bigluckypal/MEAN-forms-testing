@@ -1,0 +1,122 @@
+<div class="container-fluid">
+
+    <div class="empty"></div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 col-sm-1"></div>
+        <div class="col-md-8 col-sm-10">
+            <form #userForm="ngForm" *ngIf="!isFormSubmitted" novalidate (ngSubmit)="onSubmit(userForm)">
+                <div class="header">
+                    <span class="s_header">Notification Form</span>
+                </div>
+        
+                <div class="section form-group row">
+                    <!-- first name -->
+                    <div class="col">
+                        <label for="">First Name</label>
+                        <!-- two way data binding used to update view and class both -->
+                        <input type="text" #firstName="ngModel" required pattern="^[a-zA-Z]+$" [class.is-invalid]="firstName.invalid && firstName.touched"
+                            class="form-control" name="userFirstName" [(ngModel)]="userModel.firstName">
+            
+                        <!-- group or multiple error messages : error property -->
+                        <div *ngIf="firstName.errors && (firstName.invalid || firstName.touched)">
+                            <small class="text-danger" *ngIf="firstName.errors.required">* First Name is required</small>
+                            <small class="text-danger" *ngIf="firstName.errors.pattern">* First Name must be letters</small>
+                        </div>
+        
+                    </div>
+                    <!-- last name -->
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Last Name</label>
+                            <!-- two way data binding used to update view and class both -->
+                            <input type="text" #lastName="ngModel" required pattern="^[a-zA-Z]+$" [class.is-invalid]="lastName.invalid && lastName.touched"
+                                class="form-control" name="userLastName" [(ngModel)]="userModel.lastName">
+        
+                            <!-- group or multiple error messages : error property -->
+                            <div *ngIf="lastName.errors && (lastName.invalid || lastName.touched)">
+                                <small class="text-danger" *ngIf="lastName.errors.required">* Last Name is required</small>
+                                <small class="text-danger" *ngIf="lastName.errors.pattern">* Last Name must be letters</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="section sub_property">
+                    <div class="preferred">
+                        <span class="s_preferred">How would you prefer to be notified?</span>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- checkbox -->
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" name="subscribeEmail" [(ngModel)]=userModel.subscribe_email (change)="checkValue_email(userModel.subscribe_email?1:0)">
+                                <label for="" class="form-check-label">Email</label>
+                            </div>
+                            <!-- email -->
+                            <div class="form-group">
+                                <input type="email" #email="ngModel" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" [class.is-invalid]="email.invalid && email.touched"
+                                    class="form-control" name="email" [(ngModel)]="userModel.email" [disabled]="email_disabled">
+     
+                                <!-- group or multiple error messages : error property -->
+                                <div *ngIf="email.errors && (email.invalid || email.touched)">
+                                    <small class="text-danger" *ngIf="email.errors.pattern">* Email must be x@x.x</small>
+                                </div>
+                            </div>                    
+                        </div>
+                        <div class="col">
+                            <!-- checkbox -->
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" name="subscribePhone" [(ngModel)]=userModel.subscribe_phone (change)="checkValue_phone(userModel.subscribe_phone?1:0)">
+                                <label for="" class="form-check-label">Phone Number</label>
+                            </div>
+                            <!-- phone -->
+                            <div class="form-group">
+                                <input type="tel" #phoneNumber="ngModel" pattern="^\d{10}$"
+                                    [class.is-invalid]="phoneNumber.invalid && phoneNumber.touched" class="form-control" name="phoneNumber"
+                                    [(ngModel)]="userModel.phoneNumber" [disabled]="phone_disabled" placeholder="10 digits mobile number">
+        
+                                <!-- group or multiple error messages : error property -->
+                                <div *ngIf="phoneNumber.errors && (phoneNumber.invalid || phoneNumber.touched)">
+                                    <small class="text-danger" *ngIf="phoneNumber.errors.pattern">* Phone number must be 10 digits</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- user can select the topics bind with array -->
+                <div class="section form-group row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <label for="supervisor">Supervisor</label>
+                        <select (blur)="validateChoosenTopic(supervisor.value)" (change)="validateChoosenTopic(supervisor.value)"
+                            #supervisor="ngModel" [class.is-invalid]="topicHasError && supervisor.touched" class="custom-select" name="supervisor"
+                            [(ngModel)]="userModel.supervisor">
+                            <option value="default">Select...</option>
+                            <option *ngFor="let supervisor of visions">{{ supervisor }}</option>
+                        </select>
+        
+                        <small class="text-danger" [class.d-none]="!topicHasError ||supervisor.untouched">Please choose right
+                            supervisor</small>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+        
+                <div class="empty2"></div>
+                <!-- submit button -->
+                <div class="section footer d-flex justify-content-center">
+                    <!-- form level validation to enable/disable button -->
+                    <button [disabled]="userForm.form.invalid || topicHasError" type="submit"
+                        class="btn btn-primary">SUBMIT</button>
+                </div>
+        
+            </form>        
+        </div>
+        <div class="col-md-2 col-sm-1"></div>
+    </div>
+
+</div>

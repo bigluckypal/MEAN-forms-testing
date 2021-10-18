@@ -1,0 +1,51 @@
+.empty {
+  width: 100%;
+  height: 20vw;
+}
+
+.empty2 {
+  height: 2vw;
+}
+
+label, span {
+  color: #6f8389;
+}
+
+form {
+  background: #c7d2d7;
+}
+
+.header {
+  padding: 1vw;
+  text-align: center;
+  background: #6c8186;
+}
+
+.s_header {
+  font-size: 1.8vw;
+  font-weight: bold;
+  color: black;
+}
+
+.section {
+  margin: 2vw 3vw;
+}
+
+.sub_property {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.preferred {
+  margin-bottom: 1vw;
+}
+
+.footer {
+  padding-bottom: 2vw;
+}
+
+button {
+  background-color: #6c8186 !important;
+  border-color: #6c8186 !important;
+}
+
